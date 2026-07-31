@@ -1,0 +1,70 @@
+{
+  "settings": "Settings",
+  "settingsDescription": "Manage your account and application preferences.",
+
+  "account": "Account",
+
+  "accountDelete": "Account Delete",
+  "accountDeleteWarning":"Permanently delete your account and all your posts. This action cannot be undone.",
+
+  "editProfile": "Edit Profile",
+  "updateProfile": "Update your profile information.",
+
+  "allowEmail" : "Allow others to see your email.",
+  "viewProfile" : "Only approved followers can view your profile.",
+  "changeEmail": "Change Email",
+  "changeEmailDescription": "Update your account email.",
+
+  "changePassword": "Change Password",
+  "changePasswordDescription": "Update your account password.",
+
+  "deleteAccount": "Delete Account",
+
+  "deleteWarning": "This action cannot be undone. Please enter your password to continue.",
+
+  "preferences": "Preferences",
+
+  "appearance": "Appearance",
+  "appearanceDescription": "Choose your application theme.",
+
+  "language": "Language",
+  "languageDescription": "Choose your preferred language.",
+
+  "notificationPreferences": "Notification Preferences",
+
+  "likes": "Likes",
+  "likesDescription": "Notify me when someone likes my posts.",
+
+  "comments": "Comments",
+  "commentsDescription": "Notify me about new comments.",
+
+  "followers": "Followers",
+  "followersDescription": "Notify me when someone follows me.",
+
+  "system": "System",
+  "systemDescription": "Receive system announcements.",
+
+  "privacyPreferences": "Privacy Preferences",
+
+  "privateAccount": "Private Account",
+  "showEmail": "Show Email",
+  "showFollowers": "Show Followers",
+  "showFollowing": "Show Following",
+
+  "logout": "Logout",
+
+  "save": "Save",
+  "saving": "Saving...",
+  "savePreferences": "Save Preferences",
+  "savingPreferences": "Saving Preferences...",
+  "savePrivacy": "Save Privacy",
+
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "selected" : "Selected",
+
+  "versionInformation" : "Version Information",
+  "application" : "Application",
+  "build":"Build",
+  "publishDate" : "31 July 2026"
+}

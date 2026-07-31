@@ -1,0 +1,59 @@
+{
+  "settings": "Ayarlar",
+  "settingsDescription": "Hesap ve uygulama tercihlerinizi yönetin.",
+
+  "account": "Hesap",
+
+  "editProfile": "Profili Düzenle",
+  "updateProfile": "Profil bilgilerinizi güncelleyin.",
+
+  "changeEmail": "E-posta Değiştir",
+  "changeEmailDescription": "Hesabınıza ait e-posta adresini güncelleyin.",
+
+  "changePassword": "Şifre Değiştir",
+  "changePasswordDescription": "Hesap şifrenizi güncelleyin.",
+
+  "preferences": "Tercihler",
+
+  "appearance": "Görünüm",
+  "appearanceDescription": "Uygulama temasını seçin.",
+
+  "language": "Dil",
+  "languageDescription": "Tercih ettiğiniz dili seçin.",
+
+  "notificationPreferences": "Bildirim Tercihleri",
+
+  "likes": "Beğeniler",
+  "likesDescription": "Gönderilerim beğenildiğinde bildir.",
+
+  "comments": "Yorumlar",
+  "commentsDescription": "Yeni yorumlar hakkında bildir.",
+
+  "followers": "Takipçiler",
+  "followersDescription": "Beni takip edenler için bildir.",
+
+  "system": "Sistem",
+  "systemDescription": "Sistem duyurularını al.",
+
+  "privacyPreferences": "Gizlilik Tercihleri",
+
+  "privateAccount": "Gizli Hesap",
+  "showEmail": "E-postayı Göster",
+  "showFollowers": "Takipçileri Göster",
+  "showFollowing": "Takip Edilenleri Göster",
+
+  "logout": "Çıkış Yap",
+
+  "deleteAccount": "Hesabı Sil",
+
+  "deleteWarning": "Bu işlem geri alınamaz. Devam etmek için şifrenizi girin.",
+
+  "save": "Kaydet",
+  "saving": "Kaydediliyor...",
+  "savePreferences": "Tercihleri Kaydet",
+  "savingPreferences": "Tercihler Kaydediliyor...",
+  "savePrivacy": "Gizliliği Kaydet",
+
+  "cancel": "İptal",
+  "delete": "Sil"
+}
