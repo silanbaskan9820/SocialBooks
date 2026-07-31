@@ -22,6 +22,11 @@ const PORT = process.env.PORT || 5002
 
 connectDB();
 
+console.log("CORS:", [
+  "http://localhost:5173",
+  "https://social-books.vercel.app"
+]);
+
 app.use(cors({
     origin: [
         "http://localhost:5173",
