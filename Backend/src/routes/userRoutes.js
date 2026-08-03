@@ -12,7 +12,9 @@ import {
         deleteAccount, 
         changeEmail,
         updatePrivacySettings,
-        updateLanguage
+        updateLanguage,
+        getFollowers,
+        getFollowing
 } from "../controller/userController.js";
 import {authMiddleware} from "../middleware/authMiddleware.js";
 import {
@@ -36,5 +38,7 @@ router.delete("/:id", authMiddleware, deleteAccount);
 router.put("/change-email", authMiddleware, changeEmail);
 router.put("/:id/privacy", authMiddleware, updatePrivacySettings);
 router.put("/:id/language", authMiddleware, updateLanguage);
+router.get("/:id/followers", getFollowers);
+router.get("/:id/following", getFollowing);
 
 export default router;

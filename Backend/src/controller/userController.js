@@ -234,6 +234,62 @@ export async function followUser(req,res) {
     }
 }
 
+export async function getFollowers(req, res) {
+    try {
+
+        const user = await User.findById(req.params.id)
+            .populate(
+                "followers",
+                "username name surname profileImage"
+            );
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        res.status(200).json(user.followers);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
+
+    }
+}
+
+export async function getFollowing(req, res) {
+    try {
+
+        const user = await User.findById(req.params.id)
+            .populate(
+                "following",
+                "username name surname profileImage"
+            );
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        res.status(200).json(user.following);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
+
+    }
+}
+
 export async function searchUsers(req,res) {
     try {
     

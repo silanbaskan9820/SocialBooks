@@ -1,13 +1,12 @@
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getUserProfile } from "../services/authService";
-import { followUser } from "../services/authService";
+import { getUserProfile, followUser, updateUser, uploadProfilePhoto, getFollowers, getFollowing } from "../services/authService";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
-import { updateUser } from "../services/authService";
-import { uploadProfilePhoto } from "../services/authService";
 import { Camera, Check, Pencil, UserPlus, UserCheck, X } from "lucide-react";
+import PostCard from "../components/post/PostCard";
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
     
@@ -20,8 +19,13 @@ const ProfilePage = () => {
     const { user: currentUser, setUser: setCurrentUser } = useContext(AuthContext);
 
     const [profileImage, setProfileImage] = useState(null);
-
     const [previewImage, setPreviewImage] = useState("");
+
+    const [showFollowers, setShowFollowers] = useState(false);
+    const [showFollowing, setShowFollowing] = useState(false);
+
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
     
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({
@@ -47,13 +51,13 @@ const [saving, setSaving] = useState(false);
                 setPosts(data.posts);  // Backend posts göndermediği için boş dizi
 
                 if (currentUser) {
-    setIsFollowing(
-        data.user.followers.some(
-            follower =>
-                follower.toString() === currentUser._id
-        )
-    );
-}
+                    setIsFollowing(
+                        data.user.followers.some(
+                            follower =>
+                                follower.toString() === currentUser._id
+                        )
+                    );
+                }
             } catch (error) {
                 console.error(error);
             } finally {
@@ -108,6 +112,35 @@ const [saving, setSaving] = useState(false);
         console.error(error);
     }
 };
+
+const handleFollowers = async () => {
+    try {
+         const data = await getFollowers(user._id);
+
+         console.log("Followers: ", data);
+         
+         setFollowers(data);
+         setShowFollowers(true);
+
+    } catch (error) {
+        console.error(error);
+        toast.error("Followers could not be loaded")
+    }  
+}
+
+const handleFollowing = async () => {
+    try {
+        const data = await getFollowing(user._id);
+
+    setFollowing(data);
+
+    setShowFollowing(true);
+    } catch (error) {
+        console.error(error);
+        toast.error("Following could not be loaded");
+    }
+    
+}
 
 const handleUserUpdate = async () => {
 
@@ -312,7 +345,10 @@ setPreviewImage("");
                                 
                                 <div className="flex gap-6 mt-5 text-sm">
                                     
-                                    <span>
+                                    <button
+                                    onClick={handleFollowers}
+                                    >
+                                        <span>
                                         {user.privacy?.showFollowers ? (
                                             <>
                                             <strong>{user.followers.length}</strong> Followers
@@ -322,8 +358,11 @@ setPreviewImage("");
                                             "Followers Hidden"
                                         )}
                                     </span>
+                                    </button>
                                     
-                                    <span>
+                                    <button 
+                                    onClick={handleFollowing}>
+                                        <span>
                                         {user.privacy?.showFollowing ? (
                                             <>
                                             <strong>{user.following.length}</strong> Following
@@ -333,6 +372,8 @@ setPreviewImage("");
                                             "Following Hidden"
                                         )}
                                     </span>
+                                    </button>
+                                    
                                     
                                 </div>
                             )}
@@ -398,6 +439,104 @@ setPreviewImage("");
 
             </div>
 
+           {/* Followers Modal */}
+{showFollowers && (
+  <div
+    className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+    onClick={() => setShowFollowers(false)}
+  >
+    <div
+      className="bg-base-100 rounded-xl w-96 overflow-y-auto p-5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h2 className="text-xl font-bold mb-4">
+        Followers
+      </h2>
+
+      {followers.length === 0 ? (
+        <p>No followers yet.</p>
+      ) : (
+        followers.map((user) => (
+          <Link
+            key={user._id}
+            to={`/profile/${user._id}`}
+            className="flex items-center gap-3 p-3 hover:bg-base-200 rounded-lg transition"
+            onClick={() => setShowFollowers(false)}
+          >
+            <img
+              src={
+                user.profileImage
+                  ? `http://localhost:5002${user.profileImage}`
+                  : "/avatar.png"
+              }
+              className="w-10 h-10 rounded-full object-cover"
+            />
+
+            <div>
+              <p className="font-semibold">
+                {user.name} {user.surname}
+              </p>
+
+              <p className="text-primary">
+                @{user.username}
+              </p>
+            </div>
+          </Link>
+        ))
+      )}
+    </div>
+  </div>
+)}
+
+{/* Following Modal */}
+{showFollowing && (
+  <div
+    className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+    onClick={() => setShowFollowing(false)}
+  >
+    <div
+      className="bg-base-100 rounded-xl w-96 overflow-y-auto p-5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h2 className="text-xl font-bold mb-4">
+        Following
+      </h2>
+
+      {following.length === 0 ? (
+        <p>Not following anyone yet.</p>
+      ) : (
+        following.map((user) => (
+          <Link
+            key={user._id}
+            to={`/profile/${user._id}`}
+            className="flex items-center gap-3 p-3 hover:bg-base-200 rounded-lg transition"
+            onClick={() => setShowFollowing(false)}
+          >
+            <img
+              src={
+                user.profileImage
+                  ? `http://localhost:5002${user.profileImage}`
+                  : "/avatar.png"
+              }
+              className="w-10 h-10 rounded-full object-cover"
+            />
+
+            <div>
+              <p className="font-semibold">
+                {user.name} {user.surname}
+              </p>
+
+              <p className="text-primary">
+                @{user.username}
+              </p>
+            </div>
+          </Link>
+        ))
+      )}
+    </div>
+  </div>
+)}
+
             {canViewPrivateProfile ? (
             <div className="mt-10">
 
@@ -416,46 +555,11 @@ setPreviewImage("");
                     ) : (
 
                         posts.map((post) => (
-
-                            <div
-                                key={post._id}
-                                post={post}
-                                className="card bg-base-100 shadow-md"
-                            >
-
-                                <div className="card-body">
-
-                                    <h3 className="card-title">
-                                        {post.title}
-                                    </h3>
-
-                                    <p>
-                                        {post.content}
-                                    </p>
-
-                                    <div className="flex justify-between mt-5 text-sm text-gray-500">
-
-                                        <span>
-                                            ❤️ {post.likes?.length || 0}
-                                        </span>
-
-                                        <span>
-                                            👁 {post.views || 0}
-                                        </span>
-
-                                        <span>
-                                            {post.createdAt
-                                                ? new Date(post.createdAt).toLocaleDateString()
-                                                : "-"}
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        ))
+                        <PostCard
+                        key={post._id}
+                        post={post}
+                        />
+                    ))
 
                     )}
 

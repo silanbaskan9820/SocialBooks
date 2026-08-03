@@ -26,6 +26,18 @@ export const followUser = async (id) => {
     return response.data;
 };
 
+export const getFollowers = async (id) => {
+    const response = await api.get(`/users/${id}/following`);
+
+    return response.data;
+}
+
+export const getFollowing = async (id) => {
+    const response = await api.get(`/users/${id}/following`);
+
+    return response.data;
+}
+
 export const updateUser = async (id, userData) => {
     const response = await api.put(`/users/${id}`, userData);
 

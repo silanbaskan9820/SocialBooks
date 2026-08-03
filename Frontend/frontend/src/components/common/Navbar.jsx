@@ -233,9 +233,11 @@ useEffect(() => {
             <button
             type="button"
               className="text-xs text-primary"
+              onMouseDown={(e) => e.preventDefault()}
               onClick={(e) => {
                 e.stopPropagation();
                 clearHistory();
+                setShowDropdown(true);
               }}
             >
               Clear
