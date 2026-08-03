@@ -98,17 +98,53 @@ export async function getCommentsByPost(req,res) {
     }
 }
 
-/*export async function getAllComments(req, res) {
+export async function likeComment(req, res) {
     try {
-        const comments = await Comment.find()
-        .populate("user","username")
-        .populate("post","title");
-
-        res.status(200).json(comments);
+         const comment = await Comment.findById(req.params.id);
+         const userId = req.user.id;
+        
+                if(!comment) {
+                    return res.status(404).json({
+                        message: "Comment not found"
+                    });
+                }
+        
+                const alreadyLiked = comment.likes.some(
+                    like => like.toString() === req.user._id.toString()     
+                );
+        
+                let message;
+        
+                if(alreadyLiked) {
+                    comment.likes = comment.likes.filter(
+                        like => like.toString() !== req.user._id.toString()
+                    );
+                        message = "Comment unliked successfully";
+                } else {
+                    comment.likes.push(req.user._id);
+                        message = "Comment liked successfully";
+                }
+        
+                await comment.save();
+        
+                if(!alreadyLiked && comment.author.toString() !== req.user._id.toString())
+                { await Notification.create({
+                    recipient: comment.author,
+                    sender: req.user._id,
+                    type: "like",
+                    post: comment.post,
+                });
+            }
+        
+                res.status(200).json({
+                        message,
+                        likesCount: comment.likes.length,
+                        liked: !alreadyLiked
+                    });
     } catch (error) {
-        console.error("Error in getAllComments controller", error);
+        console.error("Error in likeComment controller", error);
         res.status(500).json({
-            message:"Internal Server Error"
+            message: "Internal Server Error"
         });
     }
-}*/
+}

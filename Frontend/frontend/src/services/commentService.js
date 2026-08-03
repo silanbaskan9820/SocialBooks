@@ -19,3 +19,12 @@ export const deleteComment = async (id) => {
     const response = await api.delete(`/comments/${id}`);
     return response.data;
 }
+
+export const likeComment = async (id) => {
+
+    const response = await api.put(
+        `/comments/${id}/like`
+    );
+
+    return response.data;
+};

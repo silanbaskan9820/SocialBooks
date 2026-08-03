@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { getPostById, deletePost, likePost } from "../services/postService";
+import { likeComment } from "../services/commentService";
 import { AuthContext } from "../context/AuthContext";
 import { getCommentsByPost, createComment, updateComment, deleteComment } from "../services/commentService";
 import { Calendar, Heart } from "lucide-react"
@@ -210,6 +211,39 @@ const handleLike = async () => {
     }
 }
 
+const handleLikeComment = async (commentId) => {
+  console.log("Comment ID: ", commentId);
+  console.log("User:", user);
+  console.log("Comment:", commentId);
+
+  try {
+    const data = await likeComment(commentId);
+
+    if (!user) {
+    console.log("User is undefined");
+    return;
+}
+
+    setComments((prevComments) =>
+      prevComments.map((comment) => {
+        if (comment._id !== commentId) return comment;
+
+        return {
+          ...comment,
+          likes: data.liked
+          ? [...comment.likes, user._id]
+          : comment.likes.filter(
+            (id) => id.toString() !== user._id.toString()
+          ),
+         };
+  })
+    );
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
  return (
   <div className="max-w-3xl mx-auto p-6">
 
@@ -396,6 +430,24 @@ onClick={() => setShowLikes(true)}>
     </p>
 
 )}
+
+<div className="flex items-center gap-2 mt-2">
+  <button
+  onClick={() => handleLikeComment(comment._id)}
+  className="btn btn-ghost gap-2"
+  >
+    <Heart 
+    size={18}
+    fill={
+      comment.likes?.includes(user._id) 
+      ? "red" 
+      : "none"}
+    color="red"
+    />
+
+    <span>{comment.likes?.length || 0}</span>
+  </button>
+</div>
 
                 <p className="text-xs text-gray-500 mt-2 text-right">
                   {new Date(comment.createdAt).toLocaleString()}
