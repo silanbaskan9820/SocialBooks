@@ -16,6 +16,8 @@ const ProfilePage = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [activeTab, setActiveTab] = useState("wall");
+
     const { user: currentUser, setUser: setCurrentUser } = useContext(AuthContext);
 
     const [profileImage, setProfileImage] = useState(null);
@@ -341,6 +343,38 @@ setPreviewImage("");
     </>
 
 )}
+
+<div className="tabs tabs-boxed mt-10 justify-center">
+
+  <button
+    className={`tab ${activeTab === "wall" ? "tab-active" : ""}`}
+    onClick={() => setActiveTab("wall")}
+  >
+    📰 Wall
+  </button>
+
+  <button
+    className={`tab ${activeTab === "reading" ? "tab-active" : ""}`}
+    onClick={() => setActiveTab("reading")}
+  >
+    📖 Reading
+  </button>
+
+  <button
+    className={`tab ${activeTab === "wishlist" ? "tab-active" : ""}`}
+    onClick={() => setActiveTab("wishlist")}
+  >
+    ⭐ Wishlist
+  </button>
+
+  <button
+    className={`tab ${activeTab === "library" ? "tab-active" : ""}`}
+    onClick={() => setActiveTab("library")}
+  >
+    📚 Library
+  </button>
+
+</div>
                             {canViewPrivateProfile && (
                                 
                                 <div className="flex gap-6 mt-5 text-sm">
@@ -537,8 +571,59 @@ setPreviewImage("");
   </div>
 )}
 
+<div className="tabs tabs-boxed justify-center mt-8">
+
+    <button
+        className={`tab ${
+            activeTab === "wall"
+                ? "tab-active"
+                : ""
+        }`}
+        onClick={() => setActiveTab("wall")}
+    >
+        📰 Wall
+    </button>
+
+    <button
+        className={`tab ${
+            activeTab === "reading"
+                ? "tab-active"
+                : ""
+        }`}
+        onClick={() => setActiveTab("reading")}
+    >
+        📖 Reading
+    </button>
+
+    <button
+        className={`tab ${
+            activeTab === "wishlist"
+                ? "tab-active"
+                : ""
+        }`}
+        onClick={() => setActiveTab("wishlist")}
+    >
+        ⭐ Wishlist
+    </button>
+
+    <button
+        className={`tab ${
+            activeTab === "library"
+                ? "tab-active"
+                : ""
+        }`}
+        onClick={() => setActiveTab("library")}
+    >
+        📚 Library
+    </button>
+
+</div>
+
             {canViewPrivateProfile ? (
-            <div className="mt-10">
+
+                <>
+                {activeTab === "wall" && (
+                    <div className="mt-10">
 
                 <h2 className="text-3xl font-bold mb-6">
                     Posts ({posts.length})
@@ -566,6 +651,61 @@ setPreviewImage("");
                 </div>
 
             </div>
+                )}
+                 {activeTab === "reading" && (
+
+<div className="text-center py-20">
+
+<h2 className="text-3xl font-bold">
+📖 Reading
+</h2>
+
+<p className="opacity-60 mt-3">
+
+No books yet.
+
+</p>
+
+</div>
+
+)}
+
+    {activeTab === "library" && (
+
+<div className="text-center py-20">
+
+<h2 className="text-3xl font-bold">
+📚 Library
+</h2>
+
+<p className="opacity-60 mt-3">
+
+No books yet.
+
+</p>
+
+</div>
+
+)}
+
+    {activeTab === "wishlist" && (
+
+<div className="text-center py-20">
+
+<h2 className="text-3xl font-bold">
+⭐ Wishlist
+</h2>
+
+<p className="opacity-60 mt-3">
+
+No books yet.
+
+</p>
+
+</div>
+
+)}
+  </>
 
                 ) : (
 
