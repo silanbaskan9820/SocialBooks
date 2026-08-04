@@ -261,7 +261,7 @@ export async function getCompletedBooks(req,res) {
         }).populate("book");
 
         res.status(200).json(books);
-        
+
     } catch (error) {
         console.error(error);
 
@@ -270,3 +270,77 @@ export async function getCompletedBooks(req,res) {
         });
     }
 }
+
+export async function moveBookToReading(req, res) {
+    try {
+        const userBook = await UserBook.findOne({
+            _id: req.params.id,
+            user: req.user._id,
+        });
+
+        if(!userBook) {
+            return res.status(404).json({
+                message: "Book not found",
+            });
+        }
+
+        userBook.status = "reading";
+        userBook.currentPage = 0;
+
+        await userBook.save();
+
+        res.status(200).json(userBook);
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
+    }
+}
+
+export async function updateRating(req, res) {
+    try {
+        const { rating } = req.body;
+
+        if (rating < 0 || rating > 5) {
+            return res.status(400).json({
+                message: "Rating must be between 1 and 5",
+            });
+        }
+
+        const userBook = await UserBook.findOne({
+            _id: req.params.id,
+            user: req.user._id,
+        });
+
+        if(!userBook) {
+            return res.status(404).json({
+                message: "Book Not Found",
+            });
+        }
+
+        userBook.rating = rating;
+
+        await userBook.save();
+
+        res.status(200).json(userBook);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function removeBook(req, res) {
+    try {
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error",
+        })
+    }
+}
+

@@ -42,3 +42,21 @@ export const getCompletedBooks = async () => {
 
     return response.data;
 }
+
+export const moveBookToReading = async (id) => {
+    const response = await api.put(`/user-books/${id}/read-again`);
+
+    return response.data;
+}
+
+export const removeBook = async (id) => {
+    const response = await api.delete(`/user-books/${id}`);
+
+    return response.data;
+}
+
+export const updateRating = async (id, rating) => {
+    const response = await api.put(`/user-books/${id}/rating`, { rating });
+
+    return response.data;
+}
