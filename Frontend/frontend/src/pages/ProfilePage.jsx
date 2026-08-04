@@ -5,8 +5,13 @@ import { getUserProfile, followUser, updateUser, uploadProfilePhoto, getFollower
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { Camera, Check, Pencil, UserPlus, UserCheck, X } from "lucide-react";
-import PostCard from "../components/post/PostCard";
-import { Link } from "react-router-dom";
+import WallTab from "../components/profile/WallTab";
+import ProfileTabs from "../components/profile/ProfileTabs";
+import FollowersModal from "../components/profile/FollowersModal";
+import FollowingModal from "../components/profile/FollowingModal";
+import WishlistTab from "../components/profile/WishlistTab";
+import ReadingTab from "../components/profile/ReadingTab";
+import LibraryTab from "../components/profile/LibraryTab";
 
 const ProfilePage = () => {
     
@@ -343,38 +348,6 @@ setPreviewImage("");
     </>
 
 )}
-
-<div className="tabs tabs-boxed mt-10 justify-center">
-
-  <button
-    className={`tab ${activeTab === "wall" ? "tab-active" : ""}`}
-    onClick={() => setActiveTab("wall")}
-  >
-    📰 Wall
-  </button>
-
-  <button
-    className={`tab ${activeTab === "reading" ? "tab-active" : ""}`}
-    onClick={() => setActiveTab("reading")}
-  >
-    📖 Reading
-  </button>
-
-  <button
-    className={`tab ${activeTab === "wishlist" ? "tab-active" : ""}`}
-    onClick={() => setActiveTab("wishlist")}
-  >
-    ⭐ Wishlist
-  </button>
-
-  <button
-    className={`tab ${activeTab === "library" ? "tab-active" : ""}`}
-    onClick={() => setActiveTab("library")}
-  >
-    📚 Library
-  </button>
-
-</div>
                             {canViewPrivateProfile && (
                                 
                                 <div className="flex gap-6 mt-5 text-sm">
@@ -407,7 +380,6 @@ setPreviewImage("");
                                         )}
                                     </span>
                                     </button>
-                                    
                                     
                                 </div>
                             )}
@@ -474,238 +446,45 @@ setPreviewImage("");
             </div>
 
            {/* Followers Modal */}
-{showFollowers && (
-  <div
-    className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
-    onClick={() => setShowFollowers(false)}
-  >
-    <div
-      className="bg-base-100 rounded-xl w-96 overflow-y-auto p-5"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <h2 className="text-xl font-bold mb-4">
-        Followers
-      </h2>
-
-      {followers.length === 0 ? (
-        <p>No followers yet.</p>
-      ) : (
-        followers.map((user) => (
-          <Link
-            key={user._id}
-            to={`/profile/${user._id}`}
-            className="flex items-center gap-3 p-3 hover:bg-base-200 rounded-lg transition"
-            onClick={() => setShowFollowers(false)}
-          >
-            <img
-              src={
-                user.profileImage
-                  ? `http://localhost:5002${user.profileImage}`
-                  : "/avatar.png"
-              }
-              className="w-10 h-10 rounded-full object-cover"
-            />
-
-            <div>
-              <p className="font-semibold">
-                {user.name} {user.surname}
-              </p>
-
-              <p className="text-primary">
-                @{user.username}
-              </p>
-            </div>
-          </Link>
-        ))
-      )}
-    </div>
-  </div>
-)}
+<FollowersModal
+    show={showFollowers}
+    followers={followers}
+    onClose={() => setShowFollowers(false)}
+/>
 
 {/* Following Modal */}
-{showFollowing && (
-  <div
-    className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
-    onClick={() => setShowFollowing(false)}
-  >
-    <div
-      className="bg-base-100 rounded-xl w-96 overflow-y-auto p-5"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <h2 className="text-xl font-bold mb-4">
-        Following
-      </h2>
+<FollowingModal
+    show={showFollowing}
+    following={following}
+    onClose={() => setShowFollowing(false)}
+/>
 
-      {following.length === 0 ? (
-        <p>Not following anyone yet.</p>
-      ) : (
-        following.map((user) => (
-          <Link
-            key={user._id}
-            to={`/profile/${user._id}`}
-            className="flex items-center gap-3 p-3 hover:bg-base-200 rounded-lg transition"
-            onClick={() => setShowFollowing(false)}
-          >
-            <img
-              src={
-                user.profileImage
-                  ? `http://localhost:5002${user.profileImage}`
-                  : "/avatar.png"
-              }
-              className="w-10 h-10 rounded-full object-cover"
-            />
-
-            <div>
-              <p className="font-semibold">
-                {user.name} {user.surname}
-              </p>
-
-              <p className="text-primary">
-                @{user.username}
-              </p>
-            </div>
-          </Link>
-        ))
-      )}
-    </div>
-  </div>
-)}
-
-<div className="tabs tabs-boxed justify-center mt-8">
-
-    <button
-        className={`tab ${
-            activeTab === "wall"
-                ? "tab-active"
-                : ""
-        }`}
-        onClick={() => setActiveTab("wall")}
-    >
-        📰 Wall
-    </button>
-
-    <button
-        className={`tab ${
-            activeTab === "reading"
-                ? "tab-active"
-                : ""
-        }`}
-        onClick={() => setActiveTab("reading")}
-    >
-        📖 Reading
-    </button>
-
-    <button
-        className={`tab ${
-            activeTab === "wishlist"
-                ? "tab-active"
-                : ""
-        }`}
-        onClick={() => setActiveTab("wishlist")}
-    >
-        ⭐ Wishlist
-    </button>
-
-    <button
-        className={`tab ${
-            activeTab === "library"
-                ? "tab-active"
-                : ""
-        }`}
-        onClick={() => setActiveTab("library")}
-    >
-        📚 Library
-    </button>
-
-</div>
+<ProfileTabs 
+ activeTab={activeTab}
+ setActiveTab={setActiveTab}
+ />
 
             {canViewPrivateProfile ? (
 
                 <>
                 {activeTab === "wall" && (
-                    <div className="mt-10">
-
-                <h2 className="text-3xl font-bold mb-6">
-                    Posts ({posts.length})
-                </h2>
-
-                <div className="space-y-6">
-
-                    {posts.length === 0 ? (
-
-                        <div className="text-center text-gray-500">
-                            This user hasn't shared any posts yet.
-                        </div>
-
-                    ) : (
-
-                        posts.map((post) => (
-                        <PostCard
-                        key={post._id}
-                        post={post}
+                    <WallTab 
+                        posts={posts}
                         />
-                    ))
-
-                    )}
-
-                </div>
-
-            </div>
                 )}
                  {activeTab === "reading" && (
-
-<div className="text-center py-20">
-
-<h2 className="text-3xl font-bold">
-📖 Reading
-</h2>
-
-<p className="opacity-60 mt-3">
-
-No books yet.
-
-</p>
-
-</div>
-
-)}
-
-    {activeTab === "library" && (
-
-<div className="text-center py-20">
-
-<h2 className="text-3xl font-bold">
-📚 Library
-</h2>
-
-<p className="opacity-60 mt-3">
-
-No books yet.
-
-</p>
-
-</div>
-
-)}
-
-    {activeTab === "wishlist" && (
-
-<div className="text-center py-20">
-
-<h2 className="text-3xl font-bold">
-⭐ Wishlist
-</h2>
-
-<p className="opacity-60 mt-3">
-
-No books yet.
-
-</p>
-
-</div>
-
-)}
-  </>
+                    <ReadingTab />
+                 )}
+                 
+                 {activeTab === "library" && (
+                    <LibraryTab />
+                )}
+                
+                {activeTab === "wishlist" && (
+                    <WishlistTab />
+                )}
+                
+                </>
 
                 ) : (
 
