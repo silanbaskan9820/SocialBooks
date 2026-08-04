@@ -223,3 +223,50 @@ export async function updateCurrentPage(req, res) {
 
     }
 }
+
+export async function markBookAsComplete(req, res) {
+    try {
+        const userBook = await UserBook.findOne({
+            _id: req.params.id,
+            user: req.user._id,
+        }).populate("book");
+
+        if(!userBook) {
+            return res.status(404).json({
+                message: "Book not found."
+            });
+        }
+
+        userBook.status = "completed";
+        userBook.currentPage = userBook.book.pageCount;
+
+        await userBook.save();
+
+        res.status(200).json(userBook);
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+export async function getCompletedBooks(req,res) {
+    try {
+        const books = await UserBook.find({
+            user: req.user._id,
+            status: "completed",
+        }).populate("book");
+
+        res.status(200).json(books);
+        
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error."
+        });
+    }
+}

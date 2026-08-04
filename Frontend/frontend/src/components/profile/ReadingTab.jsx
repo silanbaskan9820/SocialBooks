@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getReadingBooks, updateCurrentPage } from "../../services/userBookService";
+import { getReadingBooks, updateCurrentPage, markBookAsCompleted } from "../../services/userBookService";
 
 const ReadingTab = () => {
 
@@ -91,6 +91,16 @@ const handleUpdatePage = async (id, currentPage) => {
 
 };
 
+const handleCompleteBook = async (id) => {
+    try {
+        await markBookAsCompleted(id);
+
+        setBooks(prev => prev.filter(book => book._id !== id));
+
+    } catch (error) {
+        console.error(error);
+    }
+}
     return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-8">
 
@@ -250,7 +260,10 @@ const handleUpdatePage = async (id, currentPage) => {
                                 Continue Reading
                             </button>
 
-                            <button className="btn btn-success btn-sm">
+                            <button 
+                               className="btn btn-success btn-sm"
+                               onClick={() => handleCompleteBook(item._id)}
+                               >
                                 Finished
                             </button>
 

@@ -30,3 +30,15 @@ export const updateCurrentPage = async (id, currentPage) => {
     return response.data;
 
 };
+
+export const markBookAsCompleted = async (id) => {
+    const response = await api.put(`/user-books/${id}/complete`);
+
+    return response.data;
+}
+
+export const getCompletedBooks = async () => {
+    const response = await api.get("/user-books/completed");
+
+    return response.data;
+}
