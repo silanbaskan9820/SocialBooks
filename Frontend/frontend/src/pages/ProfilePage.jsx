@@ -1,9 +1,8 @@
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getUserProfile, followUser, updateUser, uploadProfilePhoto, getFollowers, getFollowing } from "../services/authService";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
 import { Camera, Check, Pencil, UserPlus, UserCheck, X } from "lucide-react";
 import WallTab from "../components/profile/WallTab";
 import ProfileTabs from "../components/profile/ProfileTabs";

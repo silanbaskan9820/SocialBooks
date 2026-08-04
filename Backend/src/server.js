@@ -5,6 +5,8 @@ import userRoutes from "./routes/userRoutes.js"
 import postRoutes from "./routes/postRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import bookRoutes from "./routes/bookRoutes.js";
+import userBookRoutes from "./routes/userBookRoutes.js"
 import path from "path";
 import { connectDB } from "./config/db.js";
 import { loggerMiddleware } from "./middleware/loggerMiddleware.js";
@@ -43,6 +45,8 @@ app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/user-books", userBookRoutes)
 
 app.listen(PORT, () => {
     console.log("Server started on PORT:", PORT);
