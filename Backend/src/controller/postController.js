@@ -108,9 +108,9 @@ export async function likePost(req,res) {
     try {
         const post = await Post.findById(req.params.id);
 
-        /*console.log("User:", req.user);
-        console.log("User ID:", req.user._id);
-        console.log("Likes before:", post.likes);*/
+        /*//console.log("User:", req.user);
+        //console.log("User ID:", req.user._id);
+        //console.log("Likes before:", post.likes);*/
 
         if(!post) {
             return res.status(404).json({
@@ -131,12 +131,12 @@ export async function likePost(req,res) {
                 message = "Post unliked successfully";
         } else {
             post.likes.push(req.user._id);
-            //console.log("Likes after push:", post.likes);
+            ////console.log("Likes after push:", post.likes);
                 message = "Post liked successfully";
         }
 
         await post.save();
-        //console.log("Likes after save:", post.likes);
+        ////console.log("Likes after save:", post.likes);
 
         if(!alreadyLiked && post.author.toString() !== req.user._id.toString())
         { await Notification.create({
@@ -162,7 +162,7 @@ export async function likePost(req,res) {
 
 export async function getPostById(req, res) {
     try {
-        console.log("req.user:", req.user);
+        //console.log("req.user:", req.user);
          const post = await Post.findById(req.params.id)
          .populate("author", "username profileImage") // görüntüleyen kullanıcı
          .populate("likes","username profileImage"); // beğenen kullanıcı

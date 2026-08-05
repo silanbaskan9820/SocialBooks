@@ -120,7 +120,7 @@ useEffect(() => {
             });
 
             setShowDropdown(true);
-            console.log("Dropdown opened");
+            //console.log("Dropdown opened");
 
           } catch (error) {
             console.error(error);

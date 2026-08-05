@@ -270,7 +270,7 @@ const SettingsPage = () => {
         language
        );
 
-       console.log("Updated User: ", updatedUser);
+       //console.log("Updated User: ", updatedUser);
 
        setCurrentUser(updatedUser);
 
@@ -282,8 +282,8 @@ const SettingsPage = () => {
 
     } catch (error) {
 
-      console.log(error.response);
-    console.log(error.response?.data);
+      //console.log(error.response);
+    //console.log(error.response?.data);
 
       toast.error(error.response?.data?.message || "Language could not be updated")
     } finally{

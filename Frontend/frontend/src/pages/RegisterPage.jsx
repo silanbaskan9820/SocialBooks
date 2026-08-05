@@ -31,7 +31,7 @@ const RegisterPage = () => {
           JSON.stringify(data.user)
         );
   
-        console.log(data);
+        //console.log(data);
   
         navigate("/login")
   
@@ -41,8 +41,8 @@ const RegisterPage = () => {
 
          console.error("Register Error:", error);
          
-         console.log("Status:", error.response?.status);
-         console.log("Data:", error.response?.data);
+         //console.log("Status:", error.response?.status);
+         //console.log("Data:", error.response?.data);
   
         toast.error(
           error.response?.data?.message || "Register failed"

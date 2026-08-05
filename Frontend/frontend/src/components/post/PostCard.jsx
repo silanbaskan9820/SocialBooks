@@ -8,7 +8,7 @@ import toast from "react-hot-toast"
 
 const PostCard = ({ post }) => {
 
-  console.log(post);
+  //console.log(post);
 
     const { user: currentUser } = useContext(AuthContext);
 

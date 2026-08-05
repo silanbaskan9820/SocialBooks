@@ -27,7 +27,7 @@ const handleSubmit = async (e) => {
     try {
         const data = await createPost(formData);
 
-        console.log(data);
+        //console.log(data);
 
         navigate("/");
     } catch (error) {

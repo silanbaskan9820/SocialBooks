@@ -103,12 +103,12 @@ export async function loginUser(req,res) {
 export async function getUser(req, res) {
     try {
         const user = await User.findById(req.params.id).select("-password");
-        console.log(user);
+        //console.log(user);
 
-        console.log("Profile ID:", req.params.id);
+        //console.log("Profile ID:", req.params.id);
 
         const allPosts = await Post.find();
-        console.log("All Posts:", allPosts);
+        //console.log("All Posts:", allPosts);
 
         const posts = await Post.find({
             author: req.params.id,
@@ -116,7 +116,7 @@ export async function getUser(req, res) {
         .populate("author", "username profileImage")
         .sort({ createdAt: -1});
 
-        console.log("Filtered Posts:", posts);
+        /*//console.log("Filtered Posts:", posts);*/
 
         if (!user) {
             return res.status(404).json({

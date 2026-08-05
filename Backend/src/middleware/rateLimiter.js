@@ -26,7 +26,7 @@ export const rateLimiter = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log("Rate limiter error:", error);
+        //console.log("Rate limiter error:", error);
         next();
     }
 };

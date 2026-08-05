@@ -41,6 +41,89 @@ export async function getAllBooks(req, res) {
     }
 }
 
+export async function searchOpenLibraryBooks(req, res) {
+
+    try {
+
+        const { q } = req.query;
+
+        if (!q) {
+            return res.status(400).json({
+                message: "Search query is required."
+            });
+        }
+
+
+        /*const response = await axios.get(
+            "https://openlibrary.org/search.json",
+            {
+                params: {
+                    q,
+                    limit: 20,
+                },
+            }
+        );*/
+
+        let response = await axios.get(
+    "https://openlibrary.org/search.json",
+    {
+        params: {
+            title: q,
+            limit: 20,
+        },
+    }
+);
+
+// Eğer title ile sonuç bulunamazsa genel arama yap
+if (!response.data.docs || response.data.docs.length === 0) {
+    response = await axios.get(
+        "https://openlibrary.org/search.json",
+        {
+            params: {
+                q,
+                limit: 20,
+            },
+        }
+    );
+}
+        
+        /*response.data.docs.forEach(book => {
+            console.log(book.title, book.cover_i);
+        });*/
+
+        const books = response.data.docs.map((book) => {
+    const coverImage = book.cover_i
+        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
+        : "";
+
+    console.log(coverImage);
+
+    return {
+        openLibraryId: book.key,
+        title: book.title || "",
+        author: book.author_name?.join(", ") || "Unknown",
+        description: "",
+        genre: book.subject?.[0] || "",
+        pageCount: book.number_of_pages_median || 0,
+        publishedYear: book.first_publish_year || "",
+        isbn: book.isbn?.[0] || "",
+        coverImage,
+    };
+});
+
+        res.json(books);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Open Library API Error"
+        });
+
+    }
+}
+
 export async function getBookById(req, res) {
     try {
 
@@ -60,79 +143,6 @@ export async function getBookById(req, res) {
 
         res.status(500).json({
             message: "Internal Server Error",
-        });
-
-    }
-}
-
-export async function searchBooks(req, res) {
-    try {
-
-        const { q } = req.query;
-
-        const books = await Book.find({
-            title: {
-                $regex: q,
-                $options: "i",
-            },
-        });
-
-        res.status(200).json(books);
-
-    } catch (error) {
-
-        console.error("Error in searchBooks controller", error);
-
-        res.status(500).json({
-            message: "Internal Server Error",
-        });
-
-    }
-}
-
-export async function searchGoogleBooks(req, res) {
-    try {
-
-        const { q } = req.query;
-
-        if (!q) {
-            return res.status(400).json({
-                message: "Search query is required."
-            });
-        }
-
-        const response = await axios.get(
-            "https://www.googleapis.com/books/v1/volumes",
-            {
-                params: {
-                    q,
-                    maxResults: 10,
-                },
-            }
-        );
-
-        const books = response.data.items?.map((item) => ({
-            googleBookId: item.id,
-            title: item.volumeInfo.title,
-            author: item.volumeInfo.authors?.join(", ") || "Unknown",
-            description: item.volumeInfo.description || "",
-            genre: item.volumeInfo.categories?.[0] || "",
-            pageCount: item.volumeInfo.pageCount || 0,
-            publishedYear: item.volumeInfo.publishedDate || "",
-            isbn:
-                item.volumeInfo.industryIdentifiers?.[0]?.identifier || "",
-            coverImage:
-                item.volumeInfo.imageLinks?.thumbnail || "",
-        })) || [];
-
-        res.json(books);
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            message: "Google Books API Error"
         });
 
     }

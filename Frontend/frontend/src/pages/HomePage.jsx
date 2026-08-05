@@ -13,7 +13,7 @@ const HomePage = () => {
         const fetchPosts = async () => {
             try {
                 const data = await getAllPosts();
-                console.log(JSON.stringify(data, null, 2));
+                //console.log(JSON.stringify(data, null, 2));
 
                 setPosts(data);
                 setLoading(false);

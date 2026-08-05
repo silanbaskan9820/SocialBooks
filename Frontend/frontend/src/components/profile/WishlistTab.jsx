@@ -26,7 +26,7 @@ const WishlistTab = () => {
         try {
 
             const data = await updateBookStatus(bookId, "reading");
-            console.log(data);
+            //console.log(data);
 
             setBooks(prev => prev.filter(book => book._id !== bookId));
         } catch (error) {

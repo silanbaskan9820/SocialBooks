@@ -53,7 +53,7 @@ const [saving, setSaving] = useState(false);
             try {
                 const data = await getUserProfile(id);
 
-                console.log("Profile Data:", data);
+                //console.log("Profile Data:", data);
 
                 setUser(data.user); // Backend sadece user döndürüyor
 
@@ -126,7 +126,7 @@ const handleFollowers = async () => {
     try {
          const data = await getFollowers(user._id);
 
-         console.log("Followers: ", data);
+         //console.log("Followers: ", data);
          
          setFollowers(data);
          setShowFollowers(true);
@@ -461,7 +461,8 @@ setPreviewImage("");
     onClose={() => setShowFollowing(false)}
 />
 
-<div className="flex justify-end mb-6">
+{isOwner && (
+    <div className="flex justify-end mb-6">
 
     <button
         className="btn btn-outline btn-sm gap-2"
@@ -471,6 +472,8 @@ setPreviewImage("");
     </button>
 
 </div>
+)}
+
 
 <ProfileTabs 
  activeTab={activeTab}
@@ -514,8 +517,8 @@ setPreviewImage("");
                 )}
 
               <BookSearchModal
-    show={showBookModal}
-    onClose={() => setShowBookModal(false)}
+              show={showBookModal}
+              onClose={() => setShowBookModal(false)}
 />  
           </div>
 

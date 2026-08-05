@@ -16,7 +16,7 @@ useEffect(() => {
 
             const data = await getReadingBooks();
 
-            console.log(data);
+            //console.log(data);
 
             setBooks(data);
 

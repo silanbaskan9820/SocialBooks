@@ -35,8 +35,8 @@ const handleSubmit = async (e) => {
     } catch (error) {
 
        console.error(error);
-    console.log(error.response);
-    console.log(error.response?.data);
+    //console.log(error.response);
+    //console.log(error.response?.data);
 
 
         toast.error("Post could not be updated.");

@@ -137,7 +137,7 @@ if (user) {
     );
   }
 
-  console.log(comments);
+  //console.log(comments);
 
 const handleCommentDelete = async (commentId) => {
 
@@ -212,15 +212,15 @@ const handleLike = async () => {
 }
 
 const handleLikeComment = async (commentId) => {
-  console.log("Comment ID: ", commentId);
-  console.log("User:", user);
-  console.log("Comment:", commentId);
+  //console.log("Comment ID: ", commentId);
+  //console.log("User:", user);
+  //console.log("Comment:", commentId);
 
   try {
     const data = await likeComment(commentId);
 
     if (!user) {
-    console.log("User is undefined");
+    //console.log("User is undefined");
     return;
 }
 

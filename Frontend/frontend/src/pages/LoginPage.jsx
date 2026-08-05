@@ -36,7 +36,7 @@ const handleSubmit = async (e) => {
 
       setUser(data.user);
 
-      console.log(data);
+      //console.log(data);
 
       navigate("/")
 
@@ -45,9 +45,9 @@ const handleSubmit = async (e) => {
       console.error(error);
       /*console.error("Login Error:", error);
 
-  console.log("Response:", error.response);
-  console.log("Data:", error.response?.data);
-  console.log("Status:", error.response?.status);*/
+  //console.log("Response:", error.response);
+  //console.log("Data:", error.response?.data);
+  //console.log("Status:", error.response?.status);*/
 
       toast.error(
         error.response?.data?.message || "Login failed"

@@ -6,7 +6,6 @@ import {
     getLibraryBooks,
     updateBookStatus,
     updateReadingProgress,
-    /*deleteBook,*/
     updateCurrentPage,
     markBookAsComplete,
     getCompletedBooks,
@@ -24,7 +23,6 @@ router.get("/wishlist", authMiddleware, getWishlistBooks);
 router.get("/library", authMiddleware, getLibraryBooks);
 router.patch("/:id/status", authMiddleware, updateBookStatus);
 router.patch("/:id/progress", authMiddleware, updateReadingProgress);
-//router.delete("/:id", authMiddleware, deleteBook);
 router.put("/:id/page", authMiddleware, updateCurrentPage);
 router.put("/:id/complete", authMiddleware, markBookAsComplete);
 router.get("/completed", authMiddleware, getCompletedBooks);

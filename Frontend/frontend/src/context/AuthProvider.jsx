@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
     }, [user]);
 
     useEffect(() => {
-    console.log("AUTH USER:", user);
+    //console.log("AUTH USER:", user);
 }, [user]);
 
     return (

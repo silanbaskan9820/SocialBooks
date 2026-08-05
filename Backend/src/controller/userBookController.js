@@ -4,16 +4,46 @@ import Book from "../models/Book.js";
 export async function addBookToUser(req, res) {
     try {
 
-        const { bookId, status } = req.body;
+        const { 
+            title,
+            author,
+            description,
+            genre,
+            pageCount,
+            publishedYear,
+            isbn,
+            coverImage,
+            status, 
+        } = req.body;
+
+        let book = await Book.findOne({ isbn });
+
+        if (!book) {
+             book = await Book.create({
+                title,
+                author,
+                description,
+                genre,
+                pageCount,
+                publishedYear,
+                isbn,
+                coverImage,
+            });
+
+        }
 
         let userBook = await UserBook.findOne({
             user: req.user._id,
-            book: bookId,
+            book: book._id,
         });
 
         if (userBook) {
 
             userBook.status = status;
+
+            if (status === "completed") {
+                userBook.currentPage = book.pageCount;
+            }
 
             await userBook.save();
 
@@ -24,11 +54,17 @@ export async function addBookToUser(req, res) {
 
         }
 
-        userBook = await UserBook.create({
+        userBook = await UserBook({
             user: req.user._id,
-            book: bookId,
+            book: book._id,
             status,
         });
+
+        if (status === "completed") {
+            userBook.currentPage = book.pageCount;
+        }
+
+        await userBook.save();
 
         res.status(201).json({
             message: "Book added successfully.",
