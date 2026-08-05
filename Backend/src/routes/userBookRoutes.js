@@ -6,13 +6,13 @@ import {
     getLibraryBooks,
     updateBookStatus,
     updateReadingProgress,
-    deleteBook,
+    /*deleteBook,*/
     updateCurrentPage,
     markBookAsComplete,
     getCompletedBooks,
     moveBookToReading,
     removeBook,
-    updateRating,
+    updateRating
 } from "../controller/userBookController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -24,7 +24,7 @@ router.get("/wishlist", authMiddleware, getWishlistBooks);
 router.get("/library", authMiddleware, getLibraryBooks);
 router.patch("/:id/status", authMiddleware, updateBookStatus);
 router.patch("/:id/progress", authMiddleware, updateReadingProgress);
-router.delete("/:id", authMiddleware, deleteBook);
+//router.delete("/:id", authMiddleware, deleteBook);
 router.put("/:id/page", authMiddleware, updateCurrentPage);
 router.put("/:id/complete", authMiddleware, markBookAsComplete);
 router.get("/completed", authMiddleware, getCompletedBooks);

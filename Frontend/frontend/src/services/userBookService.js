@@ -60,3 +60,15 @@ export const updateRating = async (id, rating) => {
 
     return response.data;
 }
+
+export const updateBookStatus = async (id, status) => {
+    const response = await api.patch(`/user-books/${id}/status`, { status });
+
+    return response.data;
+}
+
+export const deleteUserBook = async (id) => {
+    const response = await api.delete(`/user-books/${id}`);
+
+    return response.data;
+}

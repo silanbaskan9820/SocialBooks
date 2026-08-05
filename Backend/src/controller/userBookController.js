@@ -113,17 +113,24 @@ export async function getLibraryBooks(req, res) {
 export async function updateBookStatus(req, res) {
     try {
 
-        const userBook = await UserBook.findByIdAndUpdate(
-            req.params.id,
-            {
-                status: req.body.status,
-            },
-            {
-                new: true,
-            }
-        );
+        const { status } = req.body;
 
-        res.status(200).json(userBook);
+        const userBook = await UserBook.findOne({
+            _id: req.params.id,
+            user: req.user._id,
+    });
+
+    if (!userBook) {
+        return res.status(404).json({
+            message: "Book not found",
+        });
+    }
+
+    userBook.status = status;
+
+    await userBook.save();
+
+    res.status(200).json(userBook);
 
     } catch (error) {
 
@@ -165,7 +172,16 @@ export async function updateReadingProgress(req, res) {
 export async function deleteBook(req, res) {
     try {
 
-        await UserBook.findByIdAndDelete(req.params.id);
+       const deleteBook = await UserBook.findByIdAndDelete({
+        _id: req.params.id,
+        user: req.user._id,
+    });
+
+    if(!deletedBook) {
+        return res.status(404).json({
+            message: "Book not found",
+        })
+    }
 
         res.status(200).json({
             message: "Book removed successfully",
@@ -343,4 +359,3 @@ export async function removeBook(req, res) {
         })
     }
 }
-

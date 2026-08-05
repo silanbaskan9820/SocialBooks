@@ -8,6 +8,7 @@ import WallTab from "../components/profile/WallTab";
 import ProfileTabs from "../components/profile/ProfileTabs";
 import FollowersModal from "../components/profile/FollowersModal";
 import FollowingModal from "../components/profile/FollowingModal";
+import BookSearchModal from "../components/books/BookSearchModal";
 import WishlistTab from "../components/profile/WishlistTab";
 import ReadingTab from "../components/profile/ReadingTab";
 import LibraryTab from "../components/profile/LibraryTab";
@@ -40,6 +41,8 @@ const ProfilePage = () => {
         surname: "",
         bio: "",
 });
+
+const [showBookModal, setShowBookModal] = useState(false);
 
 const [saving, setSaving] = useState(false);
 
@@ -421,7 +424,7 @@ setPreviewImage("");
                     )}
 
                     {currentUser?._id === user._id && (
-                        <button className="btn btn-warning mt-4"
+                        <button className="btn btn-outline btn-sm mt-4"
                         onClick={() => {
                             setIsEditing(true);
 
@@ -457,6 +460,17 @@ setPreviewImage("");
     following={following}
     onClose={() => setShowFollowing(false)}
 />
+
+<div className="flex justify-end mb-6">
+
+    <button
+        className="btn btn-outline btn-sm gap-2"
+        onClick={() => setShowBookModal(true)}
+    >
+        + Add Book
+    </button>
+
+</div>
 
 <ProfileTabs 
  activeTab={activeTab}
@@ -499,6 +513,10 @@ setPreviewImage("");
                     </div>
                 )}
 
+              <BookSearchModal
+    show={showBookModal}
+    onClose={() => setShowBookModal(false)}
+/>  
           </div>
 
         </div>

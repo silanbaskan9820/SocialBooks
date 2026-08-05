@@ -1,0 +1,33 @@
+{
+  "name": "socialbooks",
+  "version": "1.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm run dev --prefix Frontend/frontend",
+    "backend": "npm run dev --prefix Backend",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+
+    "install-all": "npm install && npm install --prefix Backend && npm install --prefix Frontend/frontend",
+
+    "build": "npm run build --prefix Frontend/frontend",
+
+    "start": "npm run start --prefix Backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silanbaskan9820/SocialBooks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/silanbaskan9820/SocialBooks/issues"
+  },
+  "homepage": "https://github.com/silanbaskan9820/SocialBooks#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
