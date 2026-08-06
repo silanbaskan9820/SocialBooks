@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { getNotifications, markNotificationAsRead } from "../../services/notificationService";
 import { searchUsers, searchPosts } from "../../services/searchService";
-import { User, UserPen, Settings, LogOut } from "lucide-react"; 
+import { User, UserPen, Settings, LogOut, ShieldCheck } from "lucide-react"; 
 
 const Navbar = () => {
 
@@ -540,6 +540,20 @@ useEffect(() => {
         </Link>
       </li>
 
+      {(user?.role === "admin" || user?.role === "superadmin") && (
+        <>
+          <li>
+            <Link
+              to="admin"
+              className="flex items-center gap-2">
+                <ShieldCheck size={18} />
+                  Admin Panel
+            </Link>
+          </li>
+
+          <div className="divider my-1"></div>
+        </>
+      )}
       <div className="divider my-1"></div>
 
       <li>
