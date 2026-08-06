@@ -76,13 +76,11 @@ if (!response.data.docs || response.data.docs.length === 0) {
     );
 }
 
-console.log(req.query.q);
+//console.log(req.query.q);
 
-console.log(q);
+//console.log(q);
 
-console.log(
-    `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}`
-);
+//console.log(`https://openlibrary.org/search.json?q=${encodeURIComponent(q)}`);
         
         /*response.data.docs.forEach(book => {
             console.log(book.title, book.cover_i);

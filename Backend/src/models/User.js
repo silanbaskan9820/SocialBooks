@@ -107,6 +107,11 @@ role: {
     enum: ["user", "moderator", "admin", "superadmin"],
     default: "user",
 },
+
+isBanned: {
+    type: Boolean,
+    default: false,
+},
 }, 
 
 {timestamps: true} //createdAt, updateAt
