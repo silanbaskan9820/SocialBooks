@@ -101,6 +101,12 @@ language: {
     enum: ["tr", "en"],
     default: "en",
 },
+
+role: {
+    type: String,
+    enum: ["user", "moderator", "admin", "superadmin"],
+    default: "user",
+},
 }, 
 
 {timestamps: true} //createdAt, updateAt

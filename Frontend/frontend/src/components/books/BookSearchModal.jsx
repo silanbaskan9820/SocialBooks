@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { searchBooks } from "../../services/bookService";
 import { addBookToUser } from "../../services/userBookService";
 import toast from "react-hot-toast"
@@ -10,37 +10,54 @@ const BookSearchModal = ({ show, onClose }) => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-    const timer = setTimeout(async () => {
-        const searchQuery = query.trim().replace(/\s+/g, "");
+    const debounceRef = useRef(null);
+    const lastSearchRef = useRef("");
 
-        // Boş arama
-        if (!searchQuery) {
-            setBooks([]);
-            return;
+    useEffect(() => {
+
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
         }
 
-        // 2 karakterden kısa arama yapma
-        if (searchQuery.length < 2) {
-            setBooks([]);
-            return;
-        }
+        debounceRef.current = setTimeout(async () => {
 
-        try {
-            setLoading(true);
+            const searchQuery = query.trim().replace(/\s+/g, " ");
 
-            const data = await searchBooks(searchQuery);
-            setBooks(data);
-        } catch (error) {
-            console.error("Book search error:", error);
-            setBooks([]);
-        } finally {
-            setLoading(false);
-        }
-    }, 400);
+            if (!searchQuery) {
+                setBooks([]);
+                lastSearchRef.current = "";
+                return;
+            }
 
-    return () => clearTimeout(timer);
-}, [query]);
+            if (searchQuery.length < 2) {
+                setBooks([]);
+                return;
+            }
+
+            if (lastSearchRef.current === searchQuery) {
+                return;
+            }
+
+            try {
+
+                setLoading(true);
+
+                const data = await searchBooks(searchQuery);
+
+                setBooks(data);
+
+                lastSearchRef.current = searchQuery;
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }, 700);
+
+        return () => {
+            clearTimeout(debounceRef.current);
+        };
+    }, [query]);
 
 const handleAddBook = async (book, status) => {
 

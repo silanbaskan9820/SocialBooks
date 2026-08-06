@@ -53,17 +53,6 @@ export async function searchOpenLibraryBooks(req, res) {
             });
         }
 
-
-        /*const response = await axios.get(
-            "https://openlibrary.org/search.json",
-            {
-                params: {
-                    q,
-                    limit: 20,
-                },
-            }
-        );*/
-
         let response = await axios.get(
     "https://openlibrary.org/search.json",
     {
@@ -86,17 +75,25 @@ if (!response.data.docs || response.data.docs.length === 0) {
         }
     );
 }
+
+console.log(req.query.q);
+
+console.log(q);
+
+console.log(
+    `https://openlibrary.org/search.json?q=${encodeURIComponent(q)}`
+);
         
         /*response.data.docs.forEach(book => {
             console.log(book.title, book.cover_i);
         });*/
 
         const books = response.data.docs.map((book) => {
-    const coverImage = book.cover_i
-        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
-        : "";
+            const coverImage = book.cover_i
+            ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
+            : "";
 
-    console.log(coverImage);
+    //console.log(coverImage);
 
     return {
         openLibraryId: book.key,
