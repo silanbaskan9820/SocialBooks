@@ -14,6 +14,15 @@ import EditPostPage from "../pages/EditPostPage";
 import SettingsPage from "../pages/SettingsPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
+import AdminLayout from "../layouts/AdminLayout";
+
+import DashboardPage from "../pages/admin/DashboardPage";
+import UsersPage from "../pages/admin/UsersPage";
+import PostsPage from "../pages/admin/PostsPage";
+import CommentsPage from "../pages/admin/CommentsPage";
+import BooksPage from "../pages/admin/BooksPage";
+import NotificationsPage from "../pages/admin/NotificationsPage";
+
 const AppRoutes = () => {
     return (
         <Routes>
@@ -70,6 +79,45 @@ const AppRoutes = () => {
                 />
 
             </Route>
+
+            <Route
+            path="/admin"
+            element={
+            <ProtectedRoute>
+                <AdminLayout />
+            </ProtectedRoute>
+        }
+    >
+    <Route
+        index
+        element={<DashboardPage />}
+    />
+
+    <Route
+        path="users"
+        element={<UsersPage />}
+    />
+
+    <Route
+        path="posts"
+        element={<PostsPage />}
+    />
+
+    <Route
+        path="comments"
+        element={<CommentsPage />}
+    />
+
+    <Route
+        path="books"
+        element={<BooksPage />}
+    />
+
+    <Route
+        path="notifications"
+        element={<NotificationsPage />}
+    />
+</Route>
 
             {/* 404 */}
             <Route
