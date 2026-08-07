@@ -14,7 +14,7 @@ export async function getDashboard(req, res) {
 
         const bannedUsers = await User.countDocuments({ isBanned: true });
 
-        const activeUsers = await User.countDocuments({ isBanned: false });
+        const activeUsers = await User.countDocuments({ isBanned: {$ne: true} });
 
         res.status(200).json({ 
             users,
@@ -140,6 +140,125 @@ export async function banUser(req, res) {
             user,
         });
 
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+export async function getUserDetail(req, res) {
+
+    try {
+        const { id } = req.params;
+
+        // console.log("DETAIL USER ID: ", id)
+
+        const user = await User.findById(id).select("-password");
+
+        if(!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        const postsCount = await Post.countDocuments({
+            author: user._id
+        });
+
+        const commentsCount = await Comment.countDocuments({
+            user: user._id
+        });
+
+        const posts = await Post.find({ author: user._id }).sort({ createdAt: -1});
+
+        const comments = await Comment.find({ user: user._id }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            user: {
+                ...user.toObject(),
+                followersCount: user.followers?.length || 0,
+                followingCount: user.following?.length || 0,
+                postsCount,
+                commentsCount
+            },
+
+            posts,
+            comments
+
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+}
+
+export async function updateUserRole(req, res) {
+
+    try {
+
+        const { id } = req.params;
+        const { role } = req.body;
+
+        const allowedRoles = ["user", "admin", "superadmin"];
+
+        if (!allowedRoles.includes(role)) {
+            return res.status(400).json({
+                message: "Invalid role."
+            });
+        }
+
+        const user = await User.findById(id);
+
+        if(!user) {
+            return res.status(404).json({
+                message: "User not found."
+            });
+        }
+
+        const currentUser = req.user;
+
+        if (currentUser.role !== "superadmin") {
+            return res.status(403).json({
+                message: "Only superadmin can change user roles."
+            });
+        }
+
+        if (
+            user.role === "superadmin" &&
+            user._id.toString() !== currentUser._id.toString()
+        ) {
+            return res.status(403).json({
+                message: "You cannot change another superadmin's role."
+            });
+        }
+
+        if (
+            user._id.toString() === currentUser._id.toString()
+        ) {
+            return res.status(403).json({
+                message: "You cannot change your own role."
+            });
+        }
+
+        user.role = role;
+
+        await user.save();
+
+        res.status(200).json({
+            message: "User role updated successfully.",
+            user: {
+                _id: user._id,
+                username: user.username,
+                role: user.role
+        }
+        });
     } catch (error) {
         console.error(error);
 

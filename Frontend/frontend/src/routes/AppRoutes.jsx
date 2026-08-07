@@ -22,6 +22,7 @@ import PostsPage from "../pages/admin/PostsPage";
 import CommentsPage from "../pages/admin/CommentsPage";
 import BooksPage from "../pages/admin/BooksPage";
 import NotificationsPage from "../pages/admin/NotificationsPage";
+import UserDetailPage from "../pages/admin/UserDetailPage";
 
 const AppRoutes = () => {
     return (
@@ -117,6 +118,11 @@ const AppRoutes = () => {
         path="notifications"
         element={<NotificationsPage />}
     />
+
+    <Route 
+        path="users/:id"
+        element={<UserDetailPage/>}
+        />
 </Route>
 
             {/* 404 */}
