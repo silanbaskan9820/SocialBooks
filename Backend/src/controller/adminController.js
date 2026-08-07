@@ -12,8 +12,21 @@ export async function getDashboard(req, res) {
         const comments = await Comment.countDocuments();
         const books = await Book.countDocuments();
 
+        const bannedUsers = await User.countDocuments({ isBanned: true });
+
+        const activeUsers = await User.countDocuments({ isBanned: false });
+
+        res.status(200).json({ 
+            users,
+            posts,
+            comments,
+            books,
+            bannedUsers,
+            activeUsers,
+        });
+
     } catch (error) {
-        console.error(error);
+        console.error("Dashboard error: ", error);
 
         res.status(500).json({
             message: "Internal Server Error"
